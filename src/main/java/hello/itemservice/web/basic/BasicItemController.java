@@ -80,10 +80,16 @@ public class BasicItemController {
         return "basic/item";
     }
 
-    @PostMapping(path = "/add")
+//    @PostMapping(path = "/add")
     public String addItemV3(Item item) {
         itemRepository.save(item);
         return "basic/item";
+    }
+
+    @PostMapping(path = "/add")
+    public String addItemV4(@ModelAttribute Item item) {
+        itemRepository.save(item);
+        return "redirect:/basic/items/" + item.getId();
     }
 
     @GetMapping(path = "/{itemId}/edit")
