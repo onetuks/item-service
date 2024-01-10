@@ -6,7 +6,6 @@ build/
 !**/src/test/**/build/
 
 .gradle/
-build/
 .idea/
 .DS_Store
 
