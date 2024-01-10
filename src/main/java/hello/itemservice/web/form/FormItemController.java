@@ -37,7 +37,9 @@ public class FormItemController {
     }
 
     @GetMapping(path = "/add")
-    public String addForm() {
+    public String addForm(Model model) {
+        // 이렇게 Model 을 이용해서 뷰에 더미 데이터라도 집어넣으면 타임리프 사용할 때 오타 같은 상황에 쉽게 대응 가능하다
+        model.addAttribute("item", new Item());
         return "form/addForm";
     }
 
