@@ -37,14 +37,10 @@
     <hr class="my-4">
 
     <!-- single checkbox-->
-<!--    HTML checkbox 는 선택 되지 않았을 때는 서버로 값 자체를 보내지 않음. 때문에 문제 발생 가능-->
-<!--    스프링에서는 해당 필드 네임 앞에 언더바를 붙여서 해제에 대한 필드(히든 필드)를 서버로 전송 (open -> _open)-->
-<!--    히든 필드는 항상 전달되기 때문에 처리가 용이-->
     <div>판매 여부</div>
     <div>
       <div class="form-check">
-        <input type="checkbox" id="open" name="open" class="form-check-input">
-        <input type="hidden" name="_open" value="on">
+        <input type="checkbox" id="open" th:field="*{open}" class="form-check-input">
         <label for="open" class="form-check-label">판매 오픈</label>
       </div>
     </div>
