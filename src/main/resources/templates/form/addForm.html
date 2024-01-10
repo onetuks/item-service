@@ -56,12 +56,28 @@
     </div>
 
     <!-- radio button -->
-    <div>
-      <div>상품 종류</div>
-      <div th:each="type : ${itemTypes}" class="form-check form-check-inline">
-        <input type="radio" th:field="*{itemType}" th:value="${type.name()}" class="form-check-input">
-        <label th:for="${#ids.prev('itemType')}" class="form-check-label" th:text="${type.description}">도서</label>
+    <div>상품 종류</div>
+    <div th:each="type : ${itemTypes}" class="form-check form-check-inline">
+      <input type="radio" th:field="*{itemType}" th:value="${type.name()}"
+             class="form-check-input">
+      <label th:for="${#ids.prev('itemType')}" class="form-check-label"
+             th:text="${type.description}">도서</label>
     </div>
+
+    <!-- select -->
+    <div>
+      <div>배송 방식
+        <select th:field="*{deliveryCode}" class="form-select">
+          <option value="">==배송 방식 선택==</option>
+          <option th:each="delivery : ${deliveryCodes}"
+                  th:value="${delivery.getCode()}"
+                  th:text="${delivery.getDisplayName()}">FAST
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <hr class="my-4">
 
     <div class="row">
       <div class="col">
