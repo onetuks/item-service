@@ -50,9 +50,12 @@ public class ValidationItemControllerV2 {
 
     /**
      *
-     * @param item
-     * @param bindingResult BindingResult 파라미터는 반드시 @ModelAttribute 객체 뒤에 와야 한다
-     * @param redirectAttributes
+     * @param item @ModelAttribute
+     * @param bindingResult
+     * - BindingResult 파라미터는 반드시 @ModelAttribute 객체 뒤에 와야 한다
+     * - BindingResult 없으면 -> 400 에러 발생 + 컨트롤러 호출 X + 오류 페이지 이동
+     * - BindingResult 있으면 -> 오류 정보 fieldError 를 BindingResult 에 담아서 컨트롤러 호출
+     * @param redirectAttributes PRG 패턴을 적용하기 위해 사용
      * @return
      */
     @PostMapping("/add")
