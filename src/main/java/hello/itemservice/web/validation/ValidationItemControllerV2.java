@@ -172,6 +172,12 @@ public class ValidationItemControllerV2 {
     @PostMapping("/add")
     public String addItemV4(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
+        // 검증에 실패하면 다시 입력 폼으로
+        if (bindingResult.hasErrors()) {
+            log.info("errors = {}", bindingResult);
+            return "validation/v2/addForm";
+        }
+
         // BindingResult 는 target 객체(ModelAttribute 객체) 에 대해서 알고 있음
         log.info("objectName={}", bindingResult.getObjectName());
         log.info("target={}", bindingResult.getTarget());
@@ -195,12 +201,6 @@ public class ValidationItemControllerV2 {
             if (resultPrice < 10_000) {
                 bindingResult.reject("totalPriceMin", new Object[]{10_000, resultPrice}, null);
             }
-        }
-
-        // 검증에 실패하면 다시 입력 폼으로
-        if (bindingResult.hasErrors()) {
-            log.info("errors = {}", bindingResult);
-            return "validation/v2/addForm";
         }
 
         // 성공 로직
