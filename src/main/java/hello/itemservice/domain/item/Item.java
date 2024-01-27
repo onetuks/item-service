@@ -3,7 +3,6 @@ package hello.itemservice.domain.item;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import javax.crypto.Mac;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 
@@ -12,7 +11,7 @@ public class Item {
 
     private Long id;
 
-    @NotBlank(message = "공백X")
+    @NotBlank
     private String itemName;
 
     @NotNull
