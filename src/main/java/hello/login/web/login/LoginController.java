@@ -2,10 +2,12 @@ package hello.login.web.login;
 
 import hello.login.domain.login.LoginService;
 import hello.login.domain.member.Member;
+import hello.login.web.SessionConst;
 import hello.login.web.session.SessionManager;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,7 +56,7 @@ public class LoginController {
         return "redirect:/";
     }
 
-    @PostMapping(path = "/login")
+//    @PostMapping(path = "/login")
     public String loginV2(
             @Valid @ModelAttribute LoginForm loginForm,
             BindingResult bindingResult,
@@ -79,15 +81,52 @@ public class LoginController {
         return "redirect:/";
     }
 
+    @PostMapping(path = "/login")
+    public String loginV3(
+            @Valid @ModelAttribute LoginForm loginForm,
+            BindingResult bindingResult,
+            HttpServletRequest request
+    ) {
+        if (bindingResult.hasErrors()) {
+            return "login/loginForm";
+        }
+
+        Member loginMember = loginService.login(loginForm.getLoginId(), loginForm.getPassword());
+
+        if (loginMember == null) {
+            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+            return "login/loginForm";
+        }
+
+        // 로그인 성공 처리
+        // 세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성
+        // true : 세션이 없으면 만들어서 반환 / false: 세션이 없으면 null 반환
+        HttpSession session = request.getSession(true);
+        // 세션에 로그인 회원 정보 보관
+        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+
+        return "redirect:/";
+    }
+
 //    @PostMapping(path = "/logout")
     public String logout(HttpServletResponse response) {
         expireCookie(response, "memberId");
         return "redirect:/";
     }
 
-    @PostMapping(path = "/logout")
+//    @PostMapping(path = "/logout")
     public String logoutV2(HttpServletRequest request) {
         sessionManager.expire(request);
+        return "redirect:/";
+    }
+
+    @PostMapping(path = "/logout")
+    public String logoutV3(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
         return "redirect:/";
     }
 
